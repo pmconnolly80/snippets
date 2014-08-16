@@ -2,16 +2,13 @@
 <html ng-app="myApp">
 <head>
   <meta charset="utf-8">
-  <title>AngularJS App</title>
+  <title>Form Without Modal</title>
   <link href="../assets/css/bootstrap.css" rel="stylesheet" />
   <link href="../assets/css/bootstrap-theme.css" rel="stylesheet" />
   <script src="../assets/js/angular.js"></script>
   <script src="../assets/jslib/ui-bootstrap-tpls-0.11.0.js"></script>
   <script>
     angular.module('myApp', ['ui.bootstrap'])
-
-      .controller('mainCtrl', function ($scope, $modal) {
-      })
 
       .controller('formCtrl', function ($scope) {
         $scope.processForm = function() {
@@ -20,12 +17,12 @@
       });
   </script>
 </head>
-<body ng-controller="mainCtrl">
+<body>
   <div class="container">
 
-    <h1>Form In Modal</h1>
+    <h1>Form Without Modal</h1>
 
-    <p>When no modal is used, the variable <code>resourceForm</code> is defined.</p>
+    <p>When no modal is used, the form variable <code>resourceForm</code> is defined on the scope.</p>
 
     <form role="form" name="resourceForm" novalidate ng-controller="formCtrl">
       <div class="form-group">
