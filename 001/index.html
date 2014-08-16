@@ -30,45 +30,6 @@
         };
 
       });
-
-    // myApp.controller("formCtrl", function ($scope, $window) {
-
-    //   $scope.resource = {};
-      
-    //   $scope.processForm = function(resourceForm) {
-    //     console.log('processForm');
-
-    //     if ($scope.step == 1) {
-    //       if (angular.isUndefined($scope.resource.type)) {
-    //         return alert('Please select a resource type.');
-    //       }
-    //       else {
-    //         $scope.step = 2;
-    //       }
-    //     }
-        
-    //     if ($scope.step == 2) {
-    //       switch ($scope.resource.type) {
-    //         case 'event':
-    //           // Some resource types trigger a redirect to another URL.
-    //           console.log('$window.href');
-    //           $window.location.href = 'https://www.eventbrite.com/signup/';
-    //           break;
-    //         default:  // Resource form.
-    //           if (!$scope.showResourceForm) {  // Show the form
-    //             $scope.showResourceForm = true;
-    //             // Change the label of the OK button in the modal.
-    //             $scope.labels.ok = 'Submit';
-    //           }
-    //           else {  // Validate the form
-    //             console.log('$scope.resourceForm', resourceForm);
-    //           }
-    //           break;
-    //       }
-    //     }
-
-    //   }
-    // });
   </script>
 </head>
 <body ng-controller="mainCtrl">
@@ -76,31 +37,7 @@
 
   <h1>Form In Modal</h1>
 
-  <h3>Problem</h3>
-
-  <p>When a form is displayed in a modal (with ui.bootstrap), the form object containing the errors
-    is NOT published onto the controller scope.</p>
-
-  <p>In the HTML :</p>
-
-  <pre><code><form name="form.resourceForm"></code></pre>
-
-  <p>In <tt>formCtrl</tt> (instantiated with <tt>$modal.open</tt>) :</p>
-
-  <pre><code>
-  $scope.processForm = function() {
-    console.log($scope.form.resourceForm);
-  };
-  </code></pre>
-
-  <h3>Solution</h3>
-
-  <p>References</p>
-  <ul>
-    <li>AngularJS modal dialog form object is undefined in controller - http://stackoverflow.com/a/19931221</li>
-    <li>[bootstrap3_bis] Form in modal has scope issue · Issue #893 · angular-ui/bootstrap - https://github.com/angular-ui/bootstrap/issues/893
-</li>
-  </ul>
+  <p>When no modal is used, the variable <code>scope.resourceForm</code> is defined.</p>
 
   <button class="btn btn-primary" ng-click="open()">Add Resource</button>
 
