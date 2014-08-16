@@ -11,14 +11,6 @@
     angular.module('myApp', ['ui.bootstrap'])
 
       .controller('mainCtrl', function ($scope, $modal) {
-        // Dummy
-        $scope.open = function () {
-          $modal.open({
-            templateUrl: 'form.html',
-            controller: 'formCtrl'
-          });
-        };
-
       })
 
       .controller('formCtrl', function ($scope) {
@@ -26,21 +18,35 @@
         $scope.form = {};
 
         $scope.processForm = function() {
-          console.log($scope.form.resourceForm);
+          console.log('$scope.resourceForm', $scope.resourceForm);
         };
 
       });
   </script>
 </head>
 <body ng-controller="mainCtrl">
-<div class="container">
+  <div class="container">
 
-  <h1>Form In Modal</h1>
+    <h1>Form In Modal</h1>
 
-  <p>When no modal is used, the variable <code>scope.resourceForm</code> is defined.</p>
+    <p>When no modal is used, the variable <code>resourceForm</code> is defined.</p>
 
-  <button class="btn btn-primary" ng-click="open()">Add Resource</button>
+    <form role="form" name="resourceForm" novalidate ng-controller="formCtrl">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" class="form-control" ng-model="resource.title" required>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" name="description" rows="5" ng-model="resource.description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>URL</label>
+        <input type="url" class="form-control" name="url" ng-model="resource.url" required>
+      </div>
+      <button class="btn btn-primary" ng-click="processForm()">Process Form</button>
+    </form>
 
-</div>
+  </div>
 </body>
 </html>

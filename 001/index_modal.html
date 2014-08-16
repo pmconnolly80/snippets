@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>AngularJS App</title>
+  <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-theme.css" rel="stylesheet" />
+  <script src="../assets/js/angular.js"></script>
+  <script src="../assets/jslib/ui-bootstrap-tpls-0.11.0.js"></script>
+  <script>
+    angular.module('myApp', ['ui.bootstrap'])
+
+      .controller('mainCtrl', function ($scope, $modal) {
+        // Dummy
+        $scope.open = function () {
+          $modal.open({
+            templateUrl: 'form.html',
+            controller: 'formCtrl'
+          });
+        };
+
+      })
+
+      .controller('formCtrl', function ($scope) {
+
+        $scope.form = {};
+
+        $scope.processForm = function() {
+          console.log($scope.form.resourceForm);
+        };
+
+      });
+  </script>
+</head>
+<body ng-controller="mainCtrl">
+<div class="container">
+
+  <h1>Form In Modal</h1>
+
+  <p>When no modal is used, the variable <code>scope.resourceForm</code> is defined.</p>
+
+  <button class="btn btn-primary" ng-click="open()">Add Resource</button>
+
+</div>
+</body>
+</html>
