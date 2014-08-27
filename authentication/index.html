@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Authentication</title>
+  <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-theme.css" rel="stylesheet" />
+  <script src="../assets/js/angular.js"></script>
+  <script src="../assets/js/angular-route.js"></script>
+  <script src="aws-sdk.js"></script>
+  <script src="app.js"></script>
+  <script src="services.js"></script>
+  <script src="directives.js"></script>
+  <script src="controllers.js"></script>
+  <script type="text/javascript">
+    (function() {
+      var po = document.createElement('script');
+      po.type = 'text/javascript';
+      po.async = true;
+      po.src = 'https://apis.google.com/js/client:plusone.js?onload=onLoadCallback';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(po, s);
+     })();
+  </script>
+</head>
+<body>
+<h2>Signin to ngroad</h2>
+<div google-signin
+  client-id='939587948177-k89aubn3cltq81683dnnod3lkqddf179.apps.googleusercontent.com'
+  after-signin="signedIn(oauth)"></div>
+<pre>{{ user | json }}</pre>
+  <div ng-view></div>
+</body>
+</html>

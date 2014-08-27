@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <title>Authentication</title>
+  <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-theme.css" rel="stylesheet" />
+  <script src="../assets/js/angular.js"></script>
+  <script type="text/javascript">
+    angular.module('myApp', [])
+
+      .constant('AUTH_EVENTS', {
+        loginSuccess: 'auth-login-success',
+        loginFailed: 'auth-login-failed',
+        logoutSuccess: 'auth-logout-success',
+        sessionTimeout: 'auth-session-timeout',
+        notAuthenticated: 'auth-not-authenticated',
+        notAuthorized: 'auth-not-authorized'
+      })
+
+      .constant('USER_ROLES', {
+        all: '*',
+        admin: 'admin',
+        editor: 'editor',
+        guest: 'guest'
+      })
+
+      // Authentication and authorization
+      .factory('AuthService', function ($http, Session) {
+        var authService = {};
+       
+        authService.login = function (credentials) {
+          return $http
+            .post('/login', credentials)
+            .then(function (res) {
+              Session.create(res.id, res.user.id, res.user.role);
+              return res.user;
+            });
+        };
+       
+        authService.isAuthenticated = function () {
+          return !!Session.userId;
+        };
+       
+        authService.isAuthorized = function (authorizedRoles) {
+          if (!angular.isArray(authorizedRoles)) {
+            authorizedRoles = [authorizedRoles];
+          }
+          return (authService.isAuthenticated() &&
+            authorizedRoles.indexOf(Session.userRole) !== -1);
+        };
+       
+        return authService;
+      })
+
+      // User's session
+      .service('Session', function () {
+        this.create = function (sessionId, userId, userRole) {
+          this.id = sessionId;
+          this.userId = userId;
+          this.userRole = userRole;
+        };
+        this.destroy = function () {
+          this.id = null;
+          this.userId = null;
+          this.userRole = null;
+        };
+        return this;
+      })
+
+      // Top-level controller that exposes application-wide variables.
+      .controller('applicationCtrl', function ($scope,
+                                                     USER_ROLES,
+                                                     AuthService) {
+        $scope.currentUser = null;
+        $scope.userRoles = USER_ROLES;
+        $scope.isAuthorized = AuthService.isAuthorized;
+       
+        // The $scope.currentUser property can't simply be assigned a new value
+        // from a child scope because that would result in a shadow property.
+        $scope.setCurrentUser = function (user) {
+          $scope.currentUser = user;
+        };
+      })
+
+      // Try to log the user in and broadcasts an event for success or failure.
+      .controller('loginCtrl', function($scope, $rootScope, AUTH_EVENTS, AuthService) {
+        $scope.credentials = {
+          username: '',
+          password: ''
+        };
+        $scope.login = function (credentials) {
+          AuthService.login(credentials).then(function (user) {
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+            $scope.setCurrentUser(user);
+          }, function () {
+            $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+          });
+        };
+      });
+  </script>
+</head>
+<body ng-controller="applicationCtrl">
+  
+  <div class="panel panel-default">
+    <div class="panel-body">
+
+      <div ng-if="currentUser">Welcome, {{ currentUser.name }}</div>
+      <div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
+      <div ng-switch on="currentUser.role">
+        <div ng-switch-when="userRoles.admin">You're admin.</div>
+        <div ng-switch-when="userRoles.editor">You're editor.</div>
+        <div ng-switch-default>You're something else.</div>
+      </div>
+      
+      <form name="loginForm" ng-controller="loginCtrl" ng-submit="login(credentials)" novalidate>
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" class="form-control" ng-model="credentials.username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" class="form-control" ng-model="credentials.password">
+        </div>
+        <button type="submit" class="btn btn-default">Login</button>
+      </form>
+
+      <p>Source : <a href="https://medium.com/opinionated-angularjs/techniques-for-authentication-in-angularjs-applications-7bbf0346acec">https://medium.com/opinionated-angularjs/techniques-for-authentication-in-angularjs-applications-7bbf0346acec</a></p>
+    </div>
+  </div>
+
+</body>
+</html>

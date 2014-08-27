@@ -1,0 +1,19 @@
+{
+  "name": "authentication",
+  "version": "0.0.0",
+  "authors": [
+    "Vincent C. <vincedo@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "restangular": "~1.4.0"
+  }
+}

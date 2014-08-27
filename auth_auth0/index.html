@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <title>Authentication with Auth0</title>
+  <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-theme.css" rel="stylesheet" />
+  <script src="../assets/js/angular.js"></script>
+  
+  <!-- Auth0 uses client cookies to save the user credentials -->
+  <script src="../assets/js/angular-cookies.js"></script>
+
+  <!-- Auth0 widget script and AngularJS module -->
+  <script src="//cdn.auth0.com/w2/auth0-widget-5.0.min.js"></script>
+  <script src="//cdn.auth0.com/w2/auth0-angular-2.js"> </script>
+
+  <script>
+    angular.module('myApp', ['auth0'])
+      .config(function (authProvider, $httpProvider) {
+        // Configure auth0.
+        authProvider.init({
+          domain: 'felisite.auth0.com',
+          clientID: 'EdtbCU1xFC8LyXuxVaYutOeMqknDciaP',
+          callbackURL: location.href
+        });
+        // Make sure we send the JWT token we receive on the login on every request.
+        $httpProvider.interceptors.push('authInterceptor');
+      })
+      .run(function(auth) {
+        // This hooks tells auth events to check everything as soon as the app starts
+        auth.hookEvents();
+      })
+      .controller('defaultCtrl', function($scope, auth) {
+
+        $scope.profile = auth.profile;
+        
+        $scope.login = function() {
+          // This will show the popup
+          auth.signin({
+            popup: true
+          }, function() {
+            // Success callback
+          }, function() {
+            // Error callback
+          });
+        }
+
+        $scope.logout = function() {
+          auth.signout();
+        }
+      });
+  </script>
+
+  <!-- Setting the right viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body ng-controller="defaultCtrl">
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <button class="btn btn-primary" ng-click="login()">Login</button>
+      <button class="btn btn-default" ng-click="logout()">Logout</button>
+    </div>
+    <div class="panel-body">
+      <p>The current user is :</p>
+      <pre>{{profile|json}}</pre>
+    </div>
+  </div>
+
+</body>
+</html>
