@@ -83,7 +83,8 @@
       })
 
       // Try to log the user in and broadcasts an event for success or failure.
-      .controller('loginCtrl', function($scope, $rootScope, AUTH_EVENTS, AuthService) {
+      .controller('loginCtrl', function($scope, $rootScope,
+                                        AUTH_EVENTS, AuthService) {
         $scope.credentials = {
           username: '',
           password: ''
