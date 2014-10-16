@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-xs-2">
+    <ul class="nav nav-pills nav-stacked">
+      <li ng-repeat="api in apis"><a ui-sref="anon.login.{{api.key}}">{{api.name}}</a></li>
+    </ul>
+  </div>
+  <div class="col-xs-10">
+    <div ui-view>
+      <div class="alert alert-info" role="alert"><strong>Heads up!</strong><br><br>&lt;&lt;--- You need to select an authentication provider on the left.</div>
+    </div>
+  </div>
+</div><!-- .row -->

@@ -1,0 +1,18 @@
+<p>This view is visible to logged-in users only: our code watches the <code>$stateChangeStart</code> event and if access to the next state (aka "route") is not authorized (based on the current user roles and on the access parameters defined in the states), navigation to the route is prevented with <code>event.preventDefault();</code>. This is a CLIENT-SIDE protection and as such is limited as users can still tamper with it on the client.<p>
+
+<p>The following data is returned by the server to <strong>logged-in users</strong> only. This is more secure as the user needs to have an active session ON THE SERVER to obtain the data.<p>
+
+<p>Try logging out in another tab and hit Refresh to see what happens.</p>
+
+<button class="btn btn-default" ng-click="refresh()"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>
+
+<table class="table table-striped">
+  <thead>
+    <th>Title</th><th>Price</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in items">
+      <td>{{item.title}}</td><td>{{item.price | currency}}</td>
+    </tr>
+  </tbody>
+</table>

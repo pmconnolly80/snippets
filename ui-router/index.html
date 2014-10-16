@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <title>ui-router</title>
+  <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+  <link href="../assets/css/bootstrap-theme.css" rel="stylesheet" />
+  <script src="../assets/js/angular.js"></script>
+  <script src="../assets/jslib/angular-ui-router.js"></script>
+  
+  <script type="text/javascript">
+    var myApp = angular.module('myApp', ['ui.router'])
+
+      .config(function($stateProvider, $urlRouterProvider) {
+        //
+        // For any unmatched url, redirect to /state1
+        $urlRouterProvider.otherwise("/state1");
+        //
+        // Now set up the states
+        $stateProvider
+          .state('state1', {
+            url: "/state1",
+            templateUrl: "partials/state1.html"
+          })
+          .state('state1.list', {
+            url: "/list",
+            templateUrl: "partials/state1.list.html",
+            controller: function($scope) {
+              $scope.items = ["A", "List", "Of", "Items"];
+            }
+          })
+          .state('state2', {
+            url: "/state2",
+            templateUrl: "partials/state2.html"
+          })
+          .state('state2.list', {
+            url: "/list",
+            templateUrl: "partials/state2.list.html",
+            controller: function($scope) {
+              $scope.things = ["A", "Set", "Of", "Things"];
+            }
+          });
+        });
+  </script>
+  
+</head>
+<body>
+  <div class="container">
+
+    <h1>ui-router Demo</h1>
+
+    <!-- Navigation -->
+    <ul class="nav nav-pills">
+      <li><a ui-sref="state1">State 1</a>
+      <li><a ui-sref="state2">State 2</a>    
+    </ul>
+
+    <div ui-view></div>
+
+  </div><!-- .container -->
+
+</body>
+</html>

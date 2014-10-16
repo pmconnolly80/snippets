@@ -24,6 +24,21 @@
         guest: 'guest'
       })
 
+      // User's session
+      .service('Session', function () {
+        this.create = function (sessionId, userId, userRole) {
+          this.id = sessionId;
+          this.userId = userId;
+          this.userRole = userRole;
+        };
+        this.destroy = function () {
+          this.id = null;
+          this.userId = null;
+          this.userRole = null;
+        };
+        return this;
+      })
+      
       // Authentication and authorization
       .factory('AuthService', function ($http, Session) {
         var authService = {};
@@ -52,25 +67,10 @@
         return authService;
       })
 
-      // User's session
-      .service('Session', function () {
-        this.create = function (sessionId, userId, userRole) {
-          this.id = sessionId;
-          this.userId = userId;
-          this.userRole = userRole;
-        };
-        this.destroy = function () {
-          this.id = null;
-          this.userId = null;
-          this.userRole = null;
-        };
-        return this;
-      })
-
       // Top-level controller that exposes application-wide variables.
       .controller('applicationCtrl', function ($scope,
-                                                     USER_ROLES,
-                                                     AuthService) {
+                                               USER_ROLES,
+                                               AuthService) {
         $scope.currentUser = null;
         $scope.userRoles = USER_ROLES;
         $scope.isAuthorized = AuthService.isAuthorized;

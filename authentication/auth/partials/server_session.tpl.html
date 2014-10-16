@@ -1,0 +1,23 @@
+<p>Custom server authentication: the username and password are <code>HTTP POST</code>ed to our own server which authenticates the user and stores its info in the session. See below for more explanations.</p>
+
+<p>Existing users: <code>user/123</code> (regular user) - <code>admin/123</code> (admin user)</p>
+
+<form name="loginForm" ng-submit="login(credentials)" novalidate>
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" id="username" class="form-control" ng-model="credentials.username">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" class="form-control" ng-model="credentials.password">
+  </div>
+  <button type="submit" class="btn btn-default">Login</button>
+</form>
+
+<p>Our server is actually a bunch of simple PHP scripts. Each script exposes an endpoint that AngularJS can send requests to:</p>
+<ul>
+  <li><code>server/login.php</code>: send a <code>POST</code> request with the parameters <code>username</code> and <code>password</code> to log the user in or a a <code>GET</code> request to check the current user status.<li>
+  <li><code>server/logout.php</code>: send a <code>POST</code> request to log the user out.<li>
+  <li><code>server/protected.php</code>: send a <code>GET</code> request to retrieve some protected data; the data will be returned only if the user is logged in.<li>
+  <li><code>server/protected_admin.php</code>: send a <code>GET</code> request to retrieve some protected data; the data will be returned only if the user is logged in AND if he has the "admin" role.<li>
+</ul>

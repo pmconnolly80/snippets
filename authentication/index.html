@@ -1,33 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 <head>
-  <title>Authentication</title>
+  <title>Authentication with AngularJS</title>
   <link href="../assets/css/bootstrap.css" rel="stylesheet" />
   <link href="../assets/css/bootstrap-theme.css" rel="stylesheet" />
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="style.css" rel="stylesheet" />
+
   <script src="../assets/js/angular.js"></script>
-  <script src="../assets/js/angular-route.js"></script>
-  <script src="aws-sdk.js"></script>
+  <script src="../assets/js/angular-cookies.js"></script>
+  <script src="../assets/jslib/angular-ui-router.js"></script>
   <script src="app.js"></script>
-  <script src="services.js"></script>
-  <script src="directives.js"></script>
-  <script src="controllers.js"></script>
-  <script type="text/javascript">
-    (function() {
-      var po = document.createElement('script');
-      po.type = 'text/javascript';
-      po.async = true;
-      po.src = 'https://apis.google.com/js/client:plusone.js?onload=onLoadCallback';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(po, s);
-     })();
-  </script>
+  
+  <script src="auth/authservice.js"></script><!-- This defines the auth module -->
+  <script src="auth/authstorage.js"></script>
+  <script src="auth/controllers.js"></script>
+  <script src="auth/services.js"></script>
+  <script src="auth/directives.js"></script>
+  <script src="auth/google.js"></script>
+  <script src="auth/facebook.js"></script>
+
 </head>
 <body>
-<h2>Signin to ngroad</h2>
-<div google-signin
-  client-id='939587948177-k89aubn3cltq81683dnnod3lkqddf179.apps.googleusercontent.com'
-  after-signin="signedIn(oauth)"></div>
-<pre>{{ user | json }}</pre>
-  <div ng-view></div>
+  <div class="container">
+
+    <h1>Authentication with AngularJS</h1>
+
+    <p class="lead">Demo of different authentication techniques for AngularJS apps.
+       Please check the accompanying article on ng-workshop.</p>
+
+    <ul class="nav nav-tabs" ng-controller="navCtrl">
+      <li ng-hide="isLoggedIn()" active-nav>
+        <a ui-sref="anon.login">Log in</a>
+      </li>
+      <li access-role="roles.authenticated" active-nav>
+        <a ui-sref="user.home">Authenticated</a>
+      </li>
+      <li access-role="roles.admin" active-nav>
+        <a ui-sref="admin.admin">Admin</a>
+      </li>
+      <li access-role="roles.authenticated">
+        <a href="" ng-click="logout()">Log out</a>
+      </li>
+      <div id="userInfo" class="pull-right" access-role="roles.authenticated">
+        Welcome&nbsp;
+        <strong>{{ user.name }}&nbsp;</strong>
+        <span class="label" ng-class='{"label-info": user.role.title == userRoles.user.title, "label-success": user.role.title == userRoles.admin.title}'>{{ user.roles }}</span>
+      </div>
+    </ul>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div ui-view></div>
+      </div>
+    </div>
+    
+    <div id="alertBox" class="alert alert-danger" ng-show="error">
+      <button type="button" class="close" ng-click="error = null;">&times;</button>
+      <strong>Oh no!&nbsp;</strong>
+      <span ng-bind="error"></span>
+    </div>
+    
+  </div><!-- .container -->
+
 </body>
 </html>

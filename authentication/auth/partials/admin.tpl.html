@@ -1,0 +1,18 @@
+<p>This view is visible to admin users only. See the <a ui-sref="user.home">Authenticated</a> page for more info.<p>
+
+<p>The following data is returned by the server to <strong>admin users</strong> only. This is more secure as the user needs to have an active session ON THE SERVER AND have the admin role to obtain the data.<p>
+
+<p>Try logging out in another tab and hit Refresh to see what happens.</p>
+
+<button class="btn btn-default" ng-click="refresh()"><span class="glyphicon glyphicon-refresh"></span> Refresh</button>
+
+<table class="table table-striped">
+  <thead>
+    <th>Name</th><th>Credit Card</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="person in persons">
+      <td>{{person.name}}</td><td>{{person.credit_card}}</td>
+    </tr>
+  </tbody>
+</table>
