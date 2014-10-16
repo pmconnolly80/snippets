@@ -20,6 +20,7 @@
        *   - Load Google SDK
        *   - Assign `gapi`
        *   - Check user auth status
+       *sdfds
        *
        * And then resolve the promise indicating that our app has finished initializing.
        */
